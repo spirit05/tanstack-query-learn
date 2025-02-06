@@ -11,13 +11,7 @@ export function TodoList() {
     isFetchingNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["todos", "list"],
-    queryFn: (meta) =>
-      todoListApi.getFetchTodoPage({ page: meta.pageParam }, meta),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.next,
-    // для пдготовки данных перед отображением
-    select: (data) => data.pages.flatMap((page) => page.data),
+    ...todoListApi.getTodoInfinityQueryOptions(),
   });
 
   const cursorRef = useIntersentor(() => fetchNextPage());
