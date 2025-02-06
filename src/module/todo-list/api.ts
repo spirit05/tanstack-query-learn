@@ -1,8 +1,7 @@
-import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions } from "@tanstack/react-query";
+import { jsonApiMutationInstance } from "../../shared/api/api-instance";
 
-const BASE_URL = "http://localhost:3000";
-
-type TodoPaginate<T> = {
+export type PaginationDto<T> = {
   data: T[];
   first: number;
   items: number;
@@ -12,47 +11,46 @@ type TodoPaginate<T> = {
   page: number;
 };
 
-type TodoDto = {
+export type TodoDto = {
   id: string;
   text: string;
   done: boolean;
+  createdAt: number;
 };
 
 export const todoListApi = {
-  getFetchTodoList: ({ signal }: { signal: AbortSignal }) => {
-    return fetch(`${BASE_URL}/tasks`, {
-      signal,
-    }).then((res) => res.json() as Promise<TodoDto[]>);
-  },
-  getFetchTodoPage: (
-    { page }: { page: number },
-    { signal }: { signal: AbortSignal },
-  ) => {
-    return fetch(`${BASE_URL}/tasks?_page=${page}`, {
-      signal,
-    }).then((res) => res.json() as Promise<TodoPaginate<TodoDto>>);
-  },
-
-  getTodoListQueryOptions: () => {
-    return queryOptions({
-      queryKey: ["todos", "list"],
-      queryFn: todoListApi.getFetchTodoList,
-    });
-  },
-  getTodoListPageQueryOptions: ({ page }: { page: number }) => {
-    return queryOptions({
-      queryKey: ["todos", "list", { page }],
-      queryFn: (meta) => todoListApi.getFetchTodoList({ page }, meta),
-    });
-  },
   getTodoInfinityQueryOptions: () => {
     return infiniteQueryOptions({
       queryKey: ["todos", "list"],
       queryFn: (meta) =>
-        todoListApi.getFetchTodoPage({ page: meta.pageParam }, meta),
+        jsonApiMutationInstance<PaginationDto<TodoDto>>(
+          `/tasks?_page=${meta.pageParam}`,
+          {
+            signal: meta.signal,
+          },
+        ),
       initialPageParam: 1,
-      getNextPageParam: (lastPage) => lastPage.next,
-      select: (data) => data.pages.flatMap((page) => page.data),
+      getNextPageParam: (lastPage) => {
+        return lastPage.next ? lastPage.next : undefined;
+      },
+    });
+  },
+
+  createTodo: (data: TodoDto) => {
+    return jsonApiMutationInstance<TodoDto>(`/tasks`, {
+      method: "POST",
+      json: data,
+    });
+  },
+  updateTodo: (data: Partial<TodoDto> & { id: string }) => {
+    return jsonApiMutationInstance<TodoDto>(`/tasks/${data.id}`, {
+      method: "PATCH",
+      json: data,
+    });
+  },
+  deleteTodo: (id: string) => {
+    return jsonApiMutationInstance(`/tasks/${id}`, {
+      method: "DELETE",
     });
   },
 };

@@ -3,7 +3,7 @@
     {
       "id": "37",
       "text": "try a new restaurant",
-      "done": true,
+      "done": false,
       "createdAt": 1675954800000
     },
     {
@@ -91,15 +91,9 @@
       "createdAt": 1677769200000
     },
     {
-      "id": "59",
-      "text": "buy a new laptop",
-      "done": false,
-      "createdAt": 1677855600000
-    },
-    {
       "id": "60",
       "text": "go on a date",
-      "done": true,
+      "done": false,
       "createdAt": 1677942000000
     },
     {
