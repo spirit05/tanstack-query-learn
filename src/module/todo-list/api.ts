@@ -17,11 +17,6 @@ type TodoDto = {
 };
 
 export const todoListApi = {
-  getFetchTodoList: ({ signal }: { signal: AbortSignal }) => {
-    return fetch(`${BASE_URL}/tasks`, {
-      signal,
-    }).then((res) => res.json() as Promise<TodoDto[]>);
-  },
   getFetchTodoPage: (
     { page }: { page: number },
     { signal }: { signal: AbortSignal },

@@ -1,10 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { todoListApi } from "./api";
+import { useState } from "react";
 
 export function TodoList() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["todos", "list"],
-    queryFn: todoListApi.getFetchTodoList,
+  const [page, setPage] = useState(1);
+
+  const {
+    data: todoItems,
+    isLoading,
+    error,
+    isPlaceholderData,
+  } = useQuery({
+    queryKey: ["todos", "list", { page }],
+    queryFn: (meta) => todoListApi.getFetchTodoPage({ page }, meta),
+    placeholderData: keepPreviousData,
   });
 
   if (isLoading) {
@@ -16,22 +25,26 @@ export function TodoList() {
   }
 
   return (
-    <div className="p-5 mx-auto max-w-[500px]">
+    <div className="p-5 mx-auto max-w-[1200px]">
       <h1 className="text-3xl font-bold underline mb-5">TodoList</h1>
 
-      {data?.map((todo) => (
-        <div
-          key={todo.id}
-          className={
-            "border border-slate-300 rounded p-3 mb-1 flex flex-col gap-1 justify-items-start items-start" +
-            (todo.done ? " bg-green-200" : "")
-          }
+      <div className={isPlaceholderData ? " opacity-40" : ""}>
+        {todoItems?.data.map((todo) => <div key={todo.id}>{todo.text}</div>)}
+      </div>
+      <div>
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          className="p-3 rounded text-blue-400 cursor-pointer"
         >
-          <span className={todo.done ? " text-slate-400" : ""}>
-            {todo.text}
-          </span>
-        </div>
-      ))}
+          Prev
+        </button>
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          className="p-3 rounded text-blue-400 cursor-pointer"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
