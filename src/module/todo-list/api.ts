@@ -16,6 +16,7 @@ export type TodoDto = {
   text: string;
   done: boolean;
   createdAt: number;
+  userId: string;
 };
 
 export const todoListApi = {

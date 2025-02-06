@@ -1,9 +1,36 @@
 {
+  "users": [
+    {
+      "id": "1",
+      "login": "alice",
+      "password": "pass123"
+    },
+    {
+      "id": "2",
+      "login": "jhon",
+      "password": "254"
+    },
+    {
+      "id": "3",
+      "login": "carol",
+      "password": "rol"
+    },
+    {
+      "id": "4",
+      "login": "alice",
+      "password": "anal"
+    },
+    {
+      "id": "5",
+      "login": "bob",
+      "password": "bob"
+    }
+  ],
   "tasks": [
     {
       "id": "37",
       "text": "try a new restaurant",
-      "done": false,
+      "done": true,
       "createdAt": 1675954800000
     },
     {
@@ -13,15 +40,9 @@
       "createdAt": 1676559600000
     },
     {
-      "id": "46",
-      "text": "start a new hobby",
-      "done": true,
-      "createdAt": 1676732400000
-    },
-    {
       "id": "47",
       "text": "check emails",
-      "done": false,
+      "done": true,
       "createdAt": 1676818800000
     },
     {
@@ -91,9 +112,15 @@
       "createdAt": 1677769200000
     },
     {
+      "id": "59",
+      "text": "buy a new laptop",
+      "done": false,
+      "createdAt": 1677855600000
+    },
+    {
       "id": "60",
       "text": "go on a date",
-      "done": false,
+      "done": true,
       "createdAt": 1677942000000
     },
     {
@@ -293,6 +320,13 @@
       "text": "clean out the attic",
       "done": true,
       "createdAt": 1681398000000
+    },
+    {
+      "id": "cQqp-D7ofUGIu2zPQdRuq",
+      "done": false,
+      "createdAt": 1738845676448,
+      "text": "sdf 122344",
+      "userId": "1"
     }
   ]
 }
