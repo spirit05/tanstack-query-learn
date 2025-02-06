@@ -42,7 +42,7 @@ export const todoListApi = {
   getTodoListPageQueryOptions: ({ page }: { page: number }) => {
     return queryOptions({
       queryKey: ["todos", "list", { page }],
-      queryFn: (meta) => todoListApi.getFetchTodoPage({ page }, meta),
+      queryFn: (meta) => todoListApi.getFetchTodoList({ page }, meta),
     });
   },
 };
