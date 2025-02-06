@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { todoListApi } from "./api";
 import { useState } from "react";
 
@@ -10,11 +10,7 @@ export function TodoList() {
     isLoading,
     error,
     isPlaceholderData,
-  } = useQuery({
-    queryKey: ["todos", "list", { page }],
-    queryFn: (meta) => todoListApi.getFetchTodoPage({ page }, meta),
-    placeholderData: keepPreviousData,
-  });
+  } = useQuery(todoListApi.getTodoListPageQueryOptions({ page }));
 
   if (isLoading) {
     return <div>Loading...</div>;
